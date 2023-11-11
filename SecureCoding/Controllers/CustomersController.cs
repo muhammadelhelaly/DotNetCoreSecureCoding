@@ -18,7 +18,7 @@ public class CustomersController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Customer model)
+    public async Task<IActionResult> Create(Customer model)
     {
         if(!ModelState.IsValid)
             return View(model);

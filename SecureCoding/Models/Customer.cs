@@ -1,4 +1,5 @@
 ﻿using Ganss.Xss;
+using SecureCoding.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
@@ -26,6 +27,10 @@ public class Customer
     [AllowedValues("Male", "Female", 
         ErrorMessage = "Only 'Male' and 'Female' are allowed")]
     public string Gender { get; set; } = string.Empty;
+
+    [EmailAddress]
+    [ReputableEmail]
+    public string Email { get; set; } = string.Empty;
 
     [StringLength(150)]
     public string Address

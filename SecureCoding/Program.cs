@@ -1,7 +1,16 @@
+using AngleSharp;
+using EmailRep.NET;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var settings = new EmailRepClientSettings();
+builder.Configuration.GetSection(nameof(EmailRepClientSettings)).Bind(settings);
+builder.Services.AddSingleton(settings);
+
+builder.Services.AddHttpClient<IEmailRepClient, EmailRepClient>();
 
 var app = builder.Build();
 

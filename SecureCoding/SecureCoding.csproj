@@ -4,9 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>533bbcd1-5785-469f-a46e-9c88bdf5f432</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EmailRep.NET.Extensions.DependencyInjection" Version="0.1.0" />
     <PackageReference Include="HtmlSanitizer" Version="8.1.748-beta" />
   </ItemGroup>
 
