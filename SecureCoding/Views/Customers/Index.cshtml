@@ -1,4 +1,32 @@
-﻿
+﻿@model IEnumerable<Customer>
+
 <h1>Customers</h1>
 
 <a class="btn btn-primary" asp-action="Create">Add New Customer</a>
+
+@if (Model.Any())
+{
+    <hr />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var customer in Model)
+            {
+                <tr>
+                    <td>@customer.FirstName</td>
+                    <td>@customer.LastName</td>
+                    <td>@customer.Gender</td>
+                    <td>@(new HtmlString(customer.Address))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

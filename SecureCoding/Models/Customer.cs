@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ganss.Xss;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace SecureCoding.Models;
 
 public class Customer
 {
+    private string address;
+
     [RegularExpression(@"^[A-Z]+[a-zA-Z]*$",
         ErrorMessage = "First Name must contain only letters")]
     [Display(Name = "First Name")]
@@ -19,7 +23,14 @@ public class Customer
     public string LastName { get; set; } = string.Empty;
 
 
-    [DeniedValues("Male", "Female", 
+    [AllowedValues("Male", "Female", 
         ErrorMessage = "Only 'Male' and 'Female' are allowed")]
     public string Gender { get; set; } = string.Empty;
+
+    [StringLength(150)]
+    public string Address
+    {
+        get => address;
+        set => address = new HtmlSanitizer().Sanitize(value);
+    }
 }

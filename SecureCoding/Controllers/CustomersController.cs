@@ -4,9 +4,11 @@ using SecureCoding.Models;
 namespace SecureCoding.Controllers;
 public class CustomersController : Controller
 {
+    private static List<Customer> _customers = new();
+
     public IActionResult Index()
     {
-        return View();
+        return View(_customers);
     }
 
     public IActionResult Create()
@@ -21,7 +23,7 @@ public class CustomersController : Controller
         if(!ModelState.IsValid)
             return View(model);
 
-        //Save to database
+        _customers.Add(model);
 
         return RedirectToAction(nameof(Index));
     }

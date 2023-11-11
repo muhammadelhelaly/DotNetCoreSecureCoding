@@ -27,6 +27,11 @@
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group mt-4">
+                <label asp-for="Address" class="control-label"></label>
+                <textarea asp-for="Address" class="form-control"></textarea>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-4">
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
