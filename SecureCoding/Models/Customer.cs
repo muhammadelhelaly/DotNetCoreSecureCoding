@@ -9,6 +9,8 @@ public class Customer
 {
     private string address;
 
+    public int Id { get; set; }
+
     [RegularExpression(@"^[A-Z]+[a-zA-Z]*$",
         ErrorMessage = "First Name must contain only letters")]
     [Display(Name = "First Name")]

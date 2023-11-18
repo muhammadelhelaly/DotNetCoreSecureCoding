@@ -14,8 +14,8 @@ public class ReputableEmailAttribute : ValidationAttribute
 
         var emailRepClient = (IEmailRepClient)validationContext.GetService(typeof(IEmailRepClient))!;
 
-        if(IsRisky(email!, emailRepClient).GetAwaiter().GetResult())
-            return new ValidationResult(GetErrorMessage());
+        //if(IsRisky(email!, emailRepClient).GetAwaiter().GetResult())
+        //    return new ValidationResult(GetErrorMessage());
 
         return ValidationResult.Success;
     }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Customer>
+﻿@model IEnumerable<CustomerViewModel>
 
 <h1>Customers</h1>
 
@@ -16,6 +16,7 @@
                 <th>Gender</th>
                 <th>Email</th>
                 <th>Address</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,9 @@
                     <td>@customer.Gender</td>
                     <td>@customer.Email</td>
                     <td>@(new HtmlString(customer.Address))</td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@customer.Key">Details</a>
+                    </td>
                 </tr>
             }
         </tbody>
