@@ -1,23 +1,42 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SecureCoding.Data;
 using SecureCoding.Models;
 using SecureCoding.ViewModels;
 
 namespace SecureCoding.Controllers;
 public class CustomersController : Controller
 {
-    private static List<Customer> _customers = new();
-
+    private readonly ApplicationDbContext _context;
     private readonly IDataProtector _dataProtector;
 
-    public CustomersController(IDataProtectionProvider dataProtectionProvider)
+    public CustomersController(IDataProtectionProvider dataProtectionProvider, ApplicationDbContext context)
     {
         _dataProtector = dataProtectionProvider.CreateProtector("SecureCoding");
+        _context = context;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(string searchValue)
     {
-        var viewModel = _customers.Select(c => new CustomerViewModel
+        List<Customer> customers = [];
+
+        if (!string.IsNullOrEmpty(searchValue))
+        {
+            //customers = _context.Customers
+            //    .FromSqlRaw($"SELECT * FROM Customers WHERE LastName Like '%{searchValue}%'").ToList();
+
+            customers = _context.Customers
+              .FromSqlInterpolated($"SELECT * FROM Customers WHERE LastName LIKE {"%" + searchValue + "%"}").ToList();
+
+            //customers = _context.Customers.Where(c => c.LastName.Contains(searchValue)).ToList();
+        }
+        else
+        {
+            customers = _context.Customers.FromSqlRaw("SELECT * FROM Customers").ToList();
+        }
+        
+        var viewModel = customers.Select(c => new CustomerViewModel
         {
             Key = _dataProtector.Protect(c.Id.ToString()),
             FirstName = c.FirstName,
@@ -33,7 +52,7 @@ public class CustomersController : Controller
     public IActionResult Details(string id)
     {
         var customerId = int.Parse(_dataProtector.Unprotect(id));
-        var customer = _customers.SingleOrDefault(c => c.Id == customerId);
+        var customer = _context.Customers.Find(customerId);
 
         return View(customer);
     }
@@ -50,9 +69,8 @@ public class CustomersController : Controller
         if(!ModelState.IsValid)
             return View(model);
 
-        model.Id = _customers.Count + 1;
-
-        _customers.Add(model);
+        _context.Customers.Add(model);
+        _context.SaveChanges();
 
         return RedirectToAction(nameof(Index));
     }
